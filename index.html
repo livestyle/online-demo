@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>LiveStyle Online demo</title>
+	<link rel="stylesheet" href="./node_modules/codemirror/lib/codemirror.css" />
+	<link rel="stylesheet" href="./lib/style.css" />
+</head>
+<body>
+	<div id="editor-pane">
+<textarea name="editor" id="editor">
+$pad: 10px;
+
+ul.nav {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	li {
+		padding: $pad;
+		margin: 1px;
+		font-weight: bold;
+		background: lighten(#f00, 15%);
+	}
+
+	@for $i from 1 through 3 {
+		.item-#{$i} { width: 4.5em * $i; }
+	}
+}
+</textarea>
+	</div>
+	<iframe src="./preview.html" frameborder="0" id="preview-pane"></iframe>
+	<script src="./node_modules/requirejs/require.js" data-main="./lib/app"></script>
+</body>
+</html>
