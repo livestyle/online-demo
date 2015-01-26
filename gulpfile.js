@@ -1,3 +1,4 @@
+var path = require('path');
 var gulp = require('gulp');
 var streamify = require('gulp-streamify');
 var browserify = require('browserify');
@@ -15,19 +16,31 @@ function cleanup() {
 	});
 }
 
-gulp.task('worker', function() {
+function compileJS(src, out) {
 	return browserify({
-		entries: './node_modules/livestyle-patcher/lib/worker.js',
+		entries: src,
 		detectGlobals: false
 	})
 	.bundle()
 	.pipe(cleanup())
-	.pipe(source('worker.js'))
-	.pipe(gulp.dest('./out'));
+	.pipe(source(path.basename(out)))
+	.pipe(gulp.dest(path.dirname(out)));
+}
+
+gulp.task('worker', function() {
+	return compileJS('./lib/worker.js', './out/worker.js');
+});
+
+gulp.task('app', function() {
+	return compileJS('./lib/app.js', './out/app.js');
+});
+
+gulp.task('preview-app', function() {
+	return compileJS('./lib/preview-app.js', './out/preview-app.js');
 });
 
 gulp.task('watch', function() {
-	gulp.watch(['./node_modules/livestyle-patcher/lib/*.js'], ['worker']);
+	gulp.watch(['./lib/*.js', './node_modules/livestyle-patcher/lib/*.js'], ['worker', 'app', 'preview-app']);
 });
 
-gulp.task('default', ['worker']);
+gulp.task('default', ['worker', 'app', 'preview-app']);

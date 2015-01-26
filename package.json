@@ -9,10 +9,10 @@
   "author": "Sergey Chikuyonok <serge.che@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "livestyle-patcher": "git+https://github.com/livestyle/patcher.git",
-    "livestyle-cssom-patcher": "git+https://github.com/livestyle/cssom-patcher.git",
     "codemirror": "^4.8.0",
-    "requirejs": "^2.1.15"
+    "livestyle-analyzer": "git+https://github.com/livestyle/analyzer.git",
+    "livestyle-cssom-patcher": "git+https://github.com/livestyle/cssom-patcher.git",
+    "livestyle-patcher": "git+https://github.com/livestyle/patcher.git"
   },
   "devDependencies": {
     "gulp": "^3.8.10",
