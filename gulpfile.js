@@ -1,46 +1,57 @@
 var path = require('path');
 var gulp = require('gulp');
-var streamify = require('gulp-streamify');
 var browserify = require('browserify');
-var source = require('vinyl-source-stream');
 var through = require('through2');
+var notifier = require('node-notifier');
+var extend = require('xtend');
 
-function cleanup() {
-	return through.obj(function(chunk, enc, next) {
-		var str = chunk.toString();
-		if (str.indexOf(__dirname)) {
-			chunk = new Buffer(str.replace(__dirname, ''));
+var DEBUG = false;
+
+function js(options) {
+	return through.obj(function(file, enc, next) {
+		if (options && options.standalone === true) {
+			options = extend({}, options, {
+				standalone: path.basename(file.path)
+					.replace(/\.\w+$/, '')
+					.replace(/-(\w+)/g, function(str, l) {
+						return l.toUpperCase();
+					})
+			});
 		}
-		this.push(chunk);
-		next();
+
+		file.contents = browserify(extend({
+			entries: file.path,
+			detectGlobals: false,
+			debug: DEBUG
+		}, options || {}))
+		.transform('6to5ify')
+		.bundle(function(err, content) {
+			if (err) {
+				notifier.notify({
+					title: 'Error', 
+					message: err,
+					sound: true
+				});
+			} else {
+				// clean up file paths
+				content = content.toString().replace(__dirname, '');
+				file.contents = new Buffer(content);
+			}
+			next();
+		});
+		this.push(file);
 	});
 }
 
-function compileJS(src, out) {
-	return browserify({
-		entries: src,
-		detectGlobals: false
-	})
-	.bundle()
-	.pipe(cleanup())
-	.pipe(source(path.basename(out)))
-	.pipe(gulp.dest(path.dirname(out)));
-}
-
-gulp.task('worker', function() {
-	return compileJS('./lib/worker.js', './out/worker.js');
-});
-
-gulp.task('app', function() {
-	return compileJS('./lib/app.js', './out/app.js');
-});
-
-gulp.task('preview-app', function() {
-	return compileJS('./lib/preview-app.js', './out/preview-app.js');
+gulp.task('js', function() {
+	return gulp.src(['./lib/{worker,app,preview-app}.js', './app/*.js'])
+		.pipe(js({standalone: true}))
+		.pipe(gulp.dest('./out'));
 });
 
 gulp.task('watch', function() {
-	gulp.watch(['./lib/*.js', './node_modules/livestyle-patcher/lib/*.js'], ['worker', 'app', 'preview-app']);
+	DEBUG = true;
+	gulp.watch(['./{app,lib}/*.js', './node_modules/livestyle-patcher/lib/*.js'], ['default']);
 });
 
-gulp.task('default', ['worker', 'app', 'preview-app']);
+gulp.task('default', ['js']);

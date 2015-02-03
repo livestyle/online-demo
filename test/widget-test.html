@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Widget test</title>
+	<link rel="stylesheet" href="../node_modules/codemirror/lib/codemirror.css" />
+	<style>
+	html, body {
+		padding: 0;
+		margin: 0;
+		width: 100%;
+		height: 100%;
+	}
+	.CodeMirror {
+		height: 100%;
+		font-family: 'DejaVu Sans Mono', Menlo, monospace;
+		font-size: 0.8em;
+		line-height: 1.4;
+	}
+
+	.line-widget {
+		/* position: absolute; */
+		display: inline-block;
+		font-family: 'DejaVu Sans Mono', Menlo, monospace;
+		font-size: 10px;
+		/* margin-top: 5px; */
+		padding: 0 5px;
+		border: 1px solid #d4d4d4;
+		border-radius: 6px;
+		color: #d4d4d4;
+		line-height: 1.1;
+	}
+
+	.popup-widget {
+		position: absolute;
+		background: blue;
+	}
+	</style>
+</head>
+<body>
+<textarea name="editor" id="editor">
+$pad: 10px;
+
+ul.nav {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	li {
+		padding: $pad;
+		margin: 1px;
+		font-weight: bold;
+		background: lighten(#f00, 15%);
+	}
+
+	@for $i from 1 through 3 {
+		.item-#{$i} { width: 4.5em * $i; }
+	}
+}
+</textarea>
+	<script src="../out/widget-test.js"></script>
+</body>
+</html>
