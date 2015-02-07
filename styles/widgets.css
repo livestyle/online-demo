@@ -1,0 +1,30 @@
+.ls-widget {
+	background: #2f415d;
+	font-family: 'DejaVu Sans Mono', Consolas, Menlo, monospace;
+	font-size: 10px;
+	color: #fff;
+	border-radius: 2px;
+	padding: 0 7px;
+	line-height: 1.5;
+}
+
+.ls-widget:before {
+	position: absolute;
+	display: block;
+	content: '';
+	width: 7px;
+	height: 7px;
+	left: -3px;
+	top: 4px;
+	background: inherit;
+	-webkit-transform: rotate(45deg);
+	-o-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+
+.ls-widget__label {
+	max-width: 150px;
+	-ms-text-overflow: ellipsis;
+	margin-top: 0.3em;
+	margin-left: 8px;
+}
