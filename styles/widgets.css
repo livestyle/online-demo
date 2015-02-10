@@ -6,6 +6,7 @@
 	border-radius: 2px;
 	padding: 0 7px;
 	line-height: 1.5;
+	z-index: 2;
 }
 
 .ls-widget:before {
@@ -48,11 +49,16 @@
 }
 
 .ls-mixin-call__section-name:after {
-	content: '{';
+	content: ' {';
+}
+
+.ls-mixin-call__section-body {
+	padding-left: 10px;
 }
 
 .ls-mixin-call__section-body:after {
 	content: '}';
+	margin-left: -10px;
 }
 
 .ls-widget__variable-suggest {
