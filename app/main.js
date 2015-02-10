@@ -10,6 +10,7 @@ import widgetOverlay from '../lib/widget-overlay';
 import widget from '../lib/widgets/abstract';
 import selectorWidget from '../lib/widgets/selector';
 import mixinCallWidget from '../lib/widgets/mixin-call';
+import variableSuggestWidget from '../lib/widgets/variable-suggest';
 
 import 'codemirror/mode/css/css';
 import 'codemirror/keymap/sublime';
@@ -28,20 +29,26 @@ function editorPayload(editor, data) {
 	return result;
 }
 
-function processAnalysis(editor, data, overlay, widget) {
+function processAnalysis(editor, data, overlay) {
 	overlay.clear();
 	var nodes = data.source.all();
 	
 	// setup secton selectors
 	nodes.forEach(node => {
+		let widget, pos;
 		if (node.analysis.selector) {
-			let widget = selectorWidget(node.analysis.selector);
-			let pos = editor.posFromIndex(node.nameRange[1]);
+			widget = selectorWidget(node.analysis.selector);
+		} else if (node.analysis.variableSuggest) {
+			widget = variableSuggestWidget(node.analysis.variableSuggest, node, editor);
+		}
+
+		if (widget) {
+			if (!pos) {
+				pos = editor.posFromIndex(node.nameRange[1]);
+			}
 			overlay.add(widget, pos.line);
 		}
 	});
-
-	showContextHint(editor, data, overlay, widget);
 }
 
 function showContextHint(editor, analysis, overlay, widget) {
@@ -90,7 +97,8 @@ cq.worker.addEventListener('message', function(evt) {
 
 	if (payload.name === 'analysis') {
 		lastAnalysis = analyzer(editor.getValue(), payload.data);
-		processAnalysis(editor, lastAnalysis, overlay, contextWidget);
+		processAnalysis(editor, lastAnalysis, overlay);
+		showContextHint(editor, lastAnalysis, overlay, contextWidget);
 	}
 });
 

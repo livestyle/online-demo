@@ -51,7 +51,7 @@ gulp.task('js', function() {
 
 gulp.task('watch', function() {
 	DEBUG = true;
-	gulp.watch(['./{app,lib}/*.js', './node_modules/livestyle-patcher/lib/*.js'], ['default']);
+	gulp.watch(['./{app,lib}/**/*.js', './node_modules/livestyle-patcher/lib/*.js'], ['default']);
 });
 
 gulp.task('default', ['js']);
