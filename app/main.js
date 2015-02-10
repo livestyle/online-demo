@@ -7,15 +7,12 @@ import crc32 from '../lib/crc32';
 import analyzer from '../lib/analyzer';
 import widgetOverlay from '../lib/widget-overlay';
 
+import widget from '../lib/widgets/abstract';
+import selectorWidget from '../lib/widgets/selector';
+import mixinCallWidget from '../lib/widgets/mixin-call';
+
 import 'codemirror/mode/css/css';
 import 'codemirror/keymap/sublime';
-
-function createWidget(type, text = '') {
-	var widget = document.createElement('div');
-	widget.className = `ls-widget ls-widget__${type}`;
-	widget.innerText = text;
-	return widget;
-}
 
 function editorPayload(editor, data) {
 	var content = editor.getValue();
@@ -38,7 +35,7 @@ function processAnalysis(editor, data, overlay, widget) {
 	// setup secton selectors
 	nodes.forEach(node => {
 		if (node.analysis.selector) {
-			let widget = createWidget('label', node.analysis.selector);
+			let widget = selectorWidget(node.analysis.selector);
 			let pos = editor.posFromIndex(node.nameRange[1]);
 			overlay.add(widget, pos.line);
 		}
@@ -52,18 +49,28 @@ function showContextHint(editor, analysis, overlay, widget) {
 	var ix = editor.indexFromPos(pos);
 	var node = analysis.source.nodeForPos(ix);
 	overlay.remove(widget);
-	if (node && node.type === 'property') {
-		var refs = node.analysis.references;
-		if (refs && refs.length && node.value !== refs[0].value) {
+	// console.log(node);
+	if (node) {
+		let content = null;
+		if (node.analysis.mixinCall) {
+			content = mixinCallWidget.content(node.analysis.mixinCall);
+		} else if (node.type === 'property') {
+			let refs = node.analysis.references;
+			if (refs && refs.length && node.value !== refs[0].value) {
+				content = refs[0].value;
+			}
+		}
+
+		if (content) {
+			widget.innerHTML = content;
 			let pos = editor.posFromIndex(node.valueRange[1]);
-			widget.innerText = refs[0].value;
 			overlay.add(widget, pos.line);
 		}
 	}
 }
 
 var lastAnalysis = null;
-var contextWidget = createWidget('label');
+var contextWidget = widget('label');
 var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {
 	lineNumbers: true,
 	mode: 'text/x-scss'
@@ -101,4 +108,3 @@ editor.on('cursorActivity', function() {
 });
 
 client.send('initial-content', editorPayload(editor));
-console.dir(editor);

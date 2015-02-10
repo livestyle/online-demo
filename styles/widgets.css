@@ -28,3 +28,29 @@
 	margin-top: 0.3em;
 	margin-left: 8px;
 }
+
+.ls-mixin-call__name {
+	margin-top: 15px;
+	font-weight: bold;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.ls-mixin-call__name:first-child {
+	margin-top: 0;
+}
+
+.ls-mixin-call__property-name:after {
+	content: ': ';
+}
+
+.ls-mixin-call__property-value:after {
+	content: ';';
+}
+
+.ls-mixin-call__section-name:after {
+	content: '{';
+}
+
+.ls-mixin-call__section-body:after {
+	content: '}';
+}

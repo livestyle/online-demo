@@ -23,6 +23,11 @@
 <body>
 <textarea name="editor" id="editor">
 $pad: 10px;
+$c1: #c30;
+
+@mixin mx {
+	color: $c1;
+}
 
 ul.nav {
 	list-style: none;
@@ -33,6 +38,7 @@ ul.nav {
 		margin: 1px;
 		font-weight: bold;
 		background: lighten(#f00, 15%);
+		@include mx;
 	}
 
 	@for $i from 1 through 3 {
