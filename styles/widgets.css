@@ -111,7 +111,7 @@
 }
 
 .ls-suggestion__preview:not([data-exact])::before {
-	content: '~';
+	content: '≈';
 	opacity: .5;
 }
 
