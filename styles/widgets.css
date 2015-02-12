@@ -122,3 +122,94 @@
 .ls-suggestion__name:after {
 	content: ' : ';
 }
+
+.ls-widget__outline {
+	font-size: 13px;
+	position: absolute;
+	top: 100px;
+	left: 50%;
+	z-index: 5;
+	-webkit-transform: translateX(-50%);
+	-o-transform: translateX(-50%);
+	transform: translateX(-50%);
+	padding: 0;
+}
+
+.ls-widget__outline:before {
+	display: none;
+}
+
+.ls-outline__search {
+	display: block;
+	padding: 7px;
+	border: 0;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+	width: 100%;
+	background-color: transparent;
+	color: #fff;
+	outline: none;
+	font-size: 1.2em;
+
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+
+}
+
+.ls-outline__switch {
+	display: block;
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	text-align: center;
+}
+
+.ls-outline__switch-label {
+	display: inline-block;
+	padding: 5px;
+}
+
+.ls-outline__sections {
+	width: 300px;
+	max-height: 300px;
+	overflow: auto;
+	font-size: 0.8em;
+}
+
+.ls-outline__section {
+	display: none;
+	padding: 7px;
+	overflow: hidden;
+}
+
+.ls-outline__section_active {
+	display: block;
+}
+
+.ls-outline__node-label {
+	display: block;
+	position: relative;
+	cursor: default;
+}
+
+.ls-outline__node_selected > .ls-outline__node-label:before {
+	display: inline-block;
+	content: '';
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: -50%;
+	width: 200%;
+	background: rgba(255, 255, 255, 0.2);
+}
+
+.ls-outline__node:not([data-type="property"]) > .ls-outline__node-label {
+	font-weight: bold;
+}
+
+.ls-outline__node-body {
+	padding-left: 20px;
+}

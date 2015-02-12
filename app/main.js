@@ -11,6 +11,7 @@ import widget from '../lib/widgets/abstract';
 import selectorWidget from '../lib/widgets/selector';
 import mixinCallWidget from '../lib/widgets/mixin-call';
 import variableSuggestWidget from '../lib/widgets/variable-suggest';
+import outlineWidget from '../lib/widgets/outline';
 
 import 'codemirror/mode/css/css';
 import 'codemirror/keymap/sublime';
@@ -56,7 +57,6 @@ function showContextHint(editor, analysis, overlay, widget) {
 	var ix = editor.indexFromPos(pos);
 	var node = analysis.source.nodeForPos(ix);
 	overlay.remove(widget);
-	// console.log(node);
 	if (node) {
 		let content = null;
 		if (node.analysis.mixinCall) {
@@ -74,6 +74,12 @@ function showContextHint(editor, analysis, overlay, widget) {
 			overlay.add(widget, pos.line);
 		}
 	}
+}
+
+function showOutline() {
+	var w = outlineWidget(lastAnalysis, editor)
+	document.body.appendChild(w);
+	outlineWidget.focus(w);
 }
 
 var lastAnalysis = null;
@@ -99,6 +105,8 @@ cq.worker.addEventListener('message', function(evt) {
 		lastAnalysis = analyzer(editor.getValue(), payload.data);
 		processAnalysis(editor, lastAnalysis, overlay);
 		showContextHint(editor, lastAnalysis, overlay, contextWidget);
+
+		showOutline();
 	}
 });
 
@@ -113,6 +121,10 @@ editor.on('cursorActivity', function() {
 	}
 
 	showContextHint(editor, lastAnalysis, overlay, contextWidget);
+});
+
+editor.setOption('extraKeys', {
+	'Ctrl-O': showOutline
 });
 
 client.send('initial-content', editorPayload(editor));
