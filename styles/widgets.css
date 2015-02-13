@@ -193,9 +193,11 @@
 	display: block;
 	position: relative;
 	cursor: default;
+	cursor: pointer;
 }
 
-.ls-outline__node_selected > .ls-outline__node-label:before {
+.ls-outline__node_selected > .ls-outline__node-label::before,
+.ls-outline__node-label:hover::before {
 	display: inline-block;
 	content: '';
 	position: absolute;
