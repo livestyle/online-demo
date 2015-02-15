@@ -1,20 +1,30 @@
 import patcher from 'livestyle-patcher';
 import CodeMirror from 'codemirror';
 
-import widgetOverlay from '../lib/widget-overlay';
 import client from '../lib/client';
 import crc32 from '../lib/crc32';
 import analyzer from '../lib/analyzer';
-import widgetOverlay from '../lib/widget-overlay';
 
-import widget from '../lib/widgets/abstract';
-import selectorWidget from '../lib/widgets/selector';
-import mixinCallWidget from '../lib/widgets/mixin-call';
-import variableSuggestWidget from '../lib/widgets/variable-suggest';
-import outlineWidget from '../lib/widgets/outline';
+import WidgetOverlay from '../lib/widget-overlay';
+import SelectorWidget from '../lib/widgets/selector';
+import MixinCallWidget from '../lib/widgets/mixin-call';
+import VariableSuggestWidget from '../lib/widgets/variable-suggest';
+import OutlineWidget from '../lib/widgets/outline';
+import ComputedValueWidget from '../lib/widgets/computed-value';
 
 import 'codemirror/mode/css/css';
 import 'codemirror/keymap/sublime';
+
+var lastAnalysis = null;
+var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {
+	lineNumbers: true,
+	mode: 'text/x-scss'
+});
+var overlay = new WidgetOverlay(editor);
+
+// init LiveStyle engine that will perform source 
+// evaluation and diffing
+var cq = patcher(client, {worker: '../out/worker.js'});
 
 function editorPayload(editor, data) {
 	var content = editor.getValue();
@@ -30,69 +40,76 @@ function editorPayload(editor, data) {
 	return result;
 }
 
-function processAnalysis(editor, data, overlay) {
+function resetWidgets(overlay) {
 	overlay.clear();
-	var nodes = data.source.all();
+	if (overlay.contextWidgetState && overlay.contextWidgetState.widget) {
+		overlay.contextWidgetState.widget.dispose();
+	}
+	overlay.contextWidgetState = {};
+}
+
+function processAnalysis(data) {
+	resetWidgets(overlay);
 	
-	// setup secton selectors
-	nodes.forEach(node => {
-		let widget, pos;
+	// setup section selectors
+	data.source.all().forEach(node => {
+		let widget;
 		if (node.analysis.selector) {
-			widget = selectorWidget(node.analysis.selector);
+			widget = new SelectorWidget(node.analysis.selector);
 		} else if (node.analysis.variableSuggest) {
-			widget = variableSuggestWidget(node.analysis.variableSuggest, node, editor);
+			widget = new VariableSuggestWidget(node.analysis.variableSuggest, node);
 		}
 
 		if (widget) {
-			if (!pos) {
-				pos = editor.posFromIndex(node.nameRange[1]);
-			}
+			let pos = overlay.editor.posFromIndex(node.nameRange[1]);
 			overlay.add(widget, pos.line);
 		}
 	});
 }
 
-function showContextHint(editor, analysis, overlay, widget) {
-	var pos = editor.getCursor();
-	var ix = editor.indexFromPos(pos);
+function showContextHint(analysis) {
+	var editor = overlay.editor;
+	var ix = editor.indexFromPos(editor.getCursor());
 	var node = analysis.source.nodeForPos(ix);
-	overlay.remove(widget);
+
+	if (!overlay.contextWidgetState) {
+		overlay.contextWidgetState = {};
+	}
+
+	if (node == overlay.contextWidgetState.node) {
+		// on the same node as from previous call, do nothing
+		return;
+	}
+
+	if (overlay.contextWidgetState.widget) {
+		overlay.contextWidgetState.widget.dispose();
+		overlay.contextWidgetState.widget = null;
+	}
+
 	if (node) {
-		let content = null;
+		overlay.contextWidgetState.node = node;
+		let widget;
 		if (node.analysis.mixinCall) {
-			content = mixinCallWidget.content(node.analysis.mixinCall);
+			widget = new MixinCallWidget(node.analysis.mixinCall);
 		} else if (node.type === 'property') {
+			// get computed property value
 			let refs = node.analysis.references;
 			if (refs && refs.length && node.value !== refs[0].value) {
-				content = refs[0].value;
+				widget = new ComputedValueWidget(refs[0].value);
 			}
 		}
 
-		if (content) {
-			widget.innerHTML = content;
+		if (widget) {
 			let pos = editor.posFromIndex(node.valueRange[1]);
 			overlay.add(widget, pos.line);
+			overlay.contextWidgetState.widget = widget;
 		}
 	}
 }
 
 function showOutline() {
-	var w = outlineWidget(lastAnalysis, editor)
-	document.body.appendChild(w);
-	outlineWidget.focus(w);
+	overlay.add(new OutlineWidget(lastAnalysis), {left: '50%', top: 50});
 }
-
-var lastAnalysis = null;
-var contextWidget = widget('label');
-var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {
-	lineNumbers: true,
-	mode: 'text/x-scss'
-});
-var overlay = widgetOverlay(editor);
-
-// init LiveStyle engine that will perform source 
-// evaluation and diffing
-var cq = patcher(client, {worker: '../out/worker.js'});
 
 // Listen to Analyzer messages
 cq.worker.addEventListener('message', function(evt) {
@@ -103,8 +120,8 @@ cq.worker.addEventListener('message', function(evt) {
 
 	if (payload.name === 'analysis') {
 		lastAnalysis = analyzer(editor.getValue(), payload.data);
-		processAnalysis(editor, lastAnalysis, overlay);
-		showContextHint(editor, lastAnalysis, overlay, contextWidget);
+		processAnalysis(lastAnalysis);
+		showContextHint(lastAnalysis);
 
 		showOutline();
 	}
@@ -116,11 +133,9 @@ editor.on('change', function() {
 	client.send('initial-content', editorPayload(editor));
 });
 editor.on('cursorActivity', function() {
-	if (!lastAnalysis) {
-		return;
+	if (lastAnalysis) {
+		showContextHint(lastAnalysis);
 	}
-
-	showContextHint(editor, lastAnalysis, overlay, contextWidget);
 });
 
 editor.setOption('extraKeys', {

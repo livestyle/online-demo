@@ -1,3 +1,8 @@
+.ls-highlight {
+	font-weight: bold;
+	color: #fc0;
+}
+
 .ls-widget {
 	background: #2f415d;
 	font-family: 'DejaVu Sans Mono', Consolas, Menlo, monospace;
@@ -7,6 +12,8 @@
 	padding: 0 7px;
 	line-height: 1.5;
 	z-index: 2;
+	margin-top: 3px;
+	margin-left: 5px;
 }
 
 .ls-widget:before {
@@ -214,4 +221,8 @@
 
 .ls-outline__node-body {
 	padding-left: 20px;
+}
+
+.ls-outline__section_filtered .ls-outline__node:not(.ls-outline__node_filtered) {
+	display: none;
 }
