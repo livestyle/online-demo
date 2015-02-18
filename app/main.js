@@ -5,6 +5,8 @@ import client from '../lib/client';
 import crc32 from '../lib/crc32';
 import analyzer from '../lib/analyzer';
 
+import scssCompletions from '../lib/completions/scss';
+
 import WidgetOverlay from '../lib/widget-overlay';
 import SelectorWidget from '../lib/widgets/selector';
 import MixinCallWidget from '../lib/widgets/mixin-call';
@@ -14,6 +16,7 @@ import ComputedValueWidget from '../lib/widgets/computed-value';
 
 import 'codemirror/mode/css/css';
 import 'codemirror/keymap/sublime';
+import 'codemirror/addon/hint/show-hint'
 
 var lastAnalysis = null;
 var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {
@@ -111,6 +114,14 @@ function showOutline() {
 	overlay.add(new OutlineWidget(lastAnalysis), {left: '50%', top: 50});
 }
 
+function showCompletions(editor) {
+	if (lastAnalysis) {
+		editor.showHint({
+			hint: editor => scssCompletions(lastAnalysis, editor)
+		});
+	}
+}
+
 // Listen to Analyzer messages
 cq.worker.addEventListener('message', function(evt) {
 	var payload = evt.data;
@@ -122,8 +133,6 @@ cq.worker.addEventListener('message', function(evt) {
 		lastAnalysis = analyzer(editor.getValue(), payload.data);
 		processAnalysis(lastAnalysis);
 		showContextHint(lastAnalysis);
-
-		showOutline();
 	}
 });
 
@@ -135,11 +144,13 @@ editor.on('change', function() {
 editor.on('cursorActivity', function() {
 	if (lastAnalysis) {
 		showContextHint(lastAnalysis);
+		// scssCompletions(lastAnalysis, editor);
 	}
 });
 
 editor.setOption('extraKeys', {
-	'Ctrl-O': showOutline
+	'Ctrl-O': showOutline,
+	'Ctrl-Space': showCompletions
 });
 
 client.send('initial-content', editorPayload(editor));
