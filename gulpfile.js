@@ -9,21 +9,20 @@ var DEBUG = false;
 
 function js(options) {
 	return through.obj(function(file, enc, next) {
-		if (options && options.standalone === true) {
-			options = extend({}, options, {
-				standalone: path.basename(file.path)
-					.replace(/\.\w+$/, '')
-					.replace(/-(\w+)/g, function(str, l) {
-						return l.toUpperCase();
-					})
-			});
+		var opt = extend({}, options || {});
+		if (opt.standalone === true) {
+			opt.standalone = path.basename(file.path)
+				.replace(/\.\w+$/, '')
+				.replace(/-(\w)/g, function(str, l) {
+					return l.toUpperCase();
+				});
 		}
 
 		file.contents = browserify(extend({
 			entries: file.path,
 			detectGlobals: false,
 			debug: DEBUG
-		}, options || {}))
+		}, opt))
 		.transform('6to5ify')
 		.bundle(function(err, content) {
 			if (err) {
