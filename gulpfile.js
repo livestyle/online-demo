@@ -43,14 +43,14 @@ function js(options) {
 }
 
 gulp.task('js', function() {
-	return gulp.src(['./lib/{worker,app,preview-app}.js', './app/*.js'])
+	return gulp.src(['./lib/*.js'])
 		.pipe(js({standalone: true}))
 		.pipe(gulp.dest('./out'));
 });
 
 gulp.task('watch', function() {
 	DEBUG = true;
-	gulp.watch(['./{app,lib}/**/*.js', './node_modules/livestyle-patcher/lib/*.js'], ['default']);
+	gulp.watch(['./lib/**/*.js', './node_modules/livestyle-patcher/lib/*.js'], ['default']);
 });
 
 gulp.task('default', ['js']);

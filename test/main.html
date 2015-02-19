@@ -59,13 +59,13 @@ ul.nav {
 	<script src="../node_modules/codemirror/mode/css/css.js"></script>
 	<script src="../node_modules/codemirror/keymap/sublime.js"></script>
 	<script src="../node_modules/codemirror/addon/hint/show-hint.js"></script>
-	<script src="../out/main.js"></script>
+	<script src="../out/analyzer-app.js"></script>
 	<script>
 	var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {
 		lineNumbers: true,
 		mode: 'text/x-scss'
 	});
-	main(editor);
+	analyzerApp(editor);
 	</script>
 </body>
 </html>
