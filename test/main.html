@@ -22,7 +22,7 @@
 	</style>
 </head>
 <body>
-<textarea name="editor" id="editor">
+<!-- <textarea name="editor" id="editor" data-mode="text/x-scss">
 $pad: 10px;
 $c1: #c30;
 $c2: darken(#c30, 0.01);
@@ -56,6 +56,66 @@ ul.nav {
 		}
 	}
 }
+</textarea> -->
+<textarea name="editor" id="editor" data-mode="text/x-less">
+@a: 1px;
+@a2: 10px - 9;
+@b: bar;
+@c1: #fc0;
+@c1_1: #fb0;
+@c2: #aaa;
+@c3: darken(#fc0, 0.1);
+
+
+.mx {
+	c: d;
+}
+
+.mx(@a: 2) {
+	g: @a;
+	.inner {
+		h: @a + 1;
+	}
+}
+
+.mx2() {
+	e: f;
+}
+
+.foo {
+	@baz: 100%;
+	padding: @a + 1;
+
+	.bar1 {
+		a: b;
+	}
+
+	.bar2& {
+		@a: 4px;
+		padding: @a + 1;
+	}
+
+	&.bar3, &.bar4 {
+		a: b;
+	}
+
+	@{b} {
+		a: b;
+	}
+
+	.mx;
+	.mx2;
+}
+
+.color {
+	v1: #fff;
+	v2: #fc1;
+	v3: #cca000;
+}
+
+.props {
+	padding: 1px;
+}
 </textarea>
 	<script src="../node_modules/codemirror/lib/codemirror.js"></script>
 	<script src="../node_modules/codemirror/mode/css/css.js"></script>
@@ -63,9 +123,10 @@ ul.nav {
 	<script src="../node_modules/codemirror/addon/hint/show-hint.js"></script>
 	<script src="../out/analyzer-app.js"></script>
 	<script>
-	var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {
+	var elem = document.getElementById('editor');
+	var editor = CodeMirror.fromTextArea(elem, {
 		lineNumbers: true,
-		mode: 'text/x-scss'
+		mode: elem.dataset.mode
 	});
 	analyzerApp(editor);
 	</script>
