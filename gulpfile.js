@@ -1,55 +1,14 @@
-var path = require('path');
 var gulp = require('gulp');
-var browserify = require('browserify');
-var through = require('through2');
-var notifier = require('node-notifier');
-var extend = require('xtend');
-
-var DEBUG = false;
-
-function js(options) {
-	return through.obj(function(file, enc, next) {
-		var opt = extend({}, options || {});
-		if (opt.standalone === true) {
-			opt.standalone = path.basename(file.path)
-				.replace(/\.\w+$/, '')
-				.replace(/-(\w)/g, function(str, l) {
-					return l.toUpperCase();
-				});
-		}
-
-		file.contents = browserify(extend({
-			entries: file.path,
-			detectGlobals: false,
-			debug: DEBUG
-		}, opt))
-		.transform('6to5ify')
-		.bundle(function(err, content) {
-			if (err) {
-				notifier.notify({
-					title: 'Error', 
-					message: err,
-					sound: true
-				});
-			} else {
-				// clean up file paths
-				content = content.toString().replace(__dirname, '');
-				file.contents = new Buffer(content);
-			}
-			next();
-		});
-		this.push(file);
-	});
-}
+var jsBundler = require('js-bundler');
 
 gulp.task('js', function() {
-	return gulp.src(['./lib/*.js'])
-		.pipe(js({standalone: true}))
+	return gulp.src('./lib/*.js')
+		.pipe(jsBundler({standalone: true, sourceMap: true}))
 		.pipe(gulp.dest('./out'));
 });
 
 gulp.task('watch', function() {
-	DEBUG = true;
+	jsBundler.watch()
 	gulp.watch(['./lib/**/*.js', './node_modules/livestyle-patcher/lib/*.js'], ['default']);
 });
 

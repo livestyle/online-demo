@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Outline widget</title>
+	<link rel="stylesheet" href="../styles/widgets.css" />
+</head>
+<body>
+	<div class="ls-widget ls-widget__outline" style="left: 50%; top: 50px;">
+	<i class="ls-widget__tail"></i>
+	<div class="ls-widget__content">
+		<ul class="ls-outline__switch">
+			<li class="ls-outline__switch-label ls-outline__switch-label_active" data-target="source">Source</li>
+			<li class="ls-outline__switch-label" data-target="result">Result</li>
+		</ul>
+
+		<input type="text" name="search" class="ls-outline__search" placeholder="Filter...">
+		
+		<div class="ls-outline__sections">
+			<div class="ls-outline__section ls-outline__section_active" data-type="source">
+				<div class="ls-outline__node" data-type="property" data-name="@a" data-range="0,7">
+					<div class="ls-outline__node-label">@a 1px</div>
+				</div>
+				<div class="ls-outline__node" data-type="property" data-name="@a2" data-range="9,22">
+					<div class="ls-outline__node-label">@a2 10px - 9</div>
+				</div>
+				<div class="ls-outline__node" data-type="property" data-name="@b" data-range="24,31">
+					<div class="ls-outline__node-label">@b bar</div>
+				</div>
+				<div class="ls-outline__node" data-type="property" data-name="@c1" data-range="33,42">
+					<div class="ls-outline__node-label">@c1 #fc0</div>
+				</div>
+				<div class="ls-outline__node" data-type="property" data-name="@c1_1" data-range="44,55">
+					<div class="ls-outline__node-label">@c1_1 #fb0</div>
+				</div>
+				<div class="ls-outline__node" data-type="property" data-name="@c2" data-range="57,66">
+					<div class="ls-outline__node-label">@c2 #aaa</div>
+				</div>
+				<div class="ls-outline__node" data-type="property" data-name="@c3" data-range="68,90">
+					<div class="ls-outline__node-label">@c3 darken(#fc0, 0.1)</div>
+				</div>
+				<div class="ls-outline__node" data-type="section" data-name=".mx" data-range="94,97">
+					<div class="ls-outline__node-label">.mx</div>
+					<div class="ls-outline__node-body">
+						<div class="ls-outline__node" data-type="property" data-name="c" data-range="101,105">
+							<div class="ls-outline__node-label">c: d</div>
+						</div>
+					</div>
+				</div>
+				<div class="ls-outline__node" data-type="section" data-name=".mx(@a: 2)" data-range="110,120">
+					<div class="ls-outline__node-label">.mx(@a: 2)</div>
+					<div class="ls-outline__node-body">
+						<div class="ls-outline__node" data-type="property" data-name="g" data-range="124,129">
+							<div class="ls-outline__node-label">g: @a</div>
+						</div>
+						<div class="ls-outline__node" data-type="section" data-name=".inner" data-range="132,138">
+							<div class="ls-outline__node-label">.inner</div>
+							<div class="ls-outline__node-body">
+								<div class="ls-outline__node" data-type="property" data-name="h" data-range="143,152">
+									<div class="ls-outline__node-label">h: @a + 1</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ls-outline__node" data-type="section" data-name=".mx2()" data-range="160,166">
+					<div class="ls-outline__node-label">.mx2()</div>
+					<div class="ls-outline__node-body">
+						<div class="ls-outline__node" data-type="property" data-name="e" data-range="170,174">
+							<div class="ls-outline__node-label">e: f</div>
+						</div>
+					</div>
+				</div>
+				<div class="ls-outline__node" data-type="section" data-name=".foo" data-range="179,183">
+					<div class="ls-outline__node-label">.foo</div>
+					<div class="ls-outline__node-body">
+						<div class="ls-outline__node" data-type="property" data-name="@baz" data-range="187,197">
+							<div class="ls-outline__node-label">@baz 100%</div>
+						</div>
+						<div class="ls-outline__node" data-type="property" data-name="padding" data-range="200,215">
+							<div class="ls-outline__node-label">padding: @a + 1</div>
+						</div>
+						<div class="ls-outline__node" data-type="section" data-name=".bar1" data-range="219,224">
+							<div class="ls-outline__node-label">.bar1</div>
+							<div class="ls-outline__node-body">
+								<div class="ls-outline__node" data-type="property" data-name="a" data-range="229,233">
+									<div class="ls-outline__node-label">a: b</div>
+								</div>
+							</div>
+						</div>
+						<div class="ls-outline__node" data-type="section" data-name=".bar2&amp;" data-range="240,246">
+							<div class="ls-outline__node-label">.bar2&amp;</div>
+							<div class="ls-outline__node-body">
+								<div class="ls-outline__node" data-type="property" data-name="@a" data-range="251,258">
+									<div class="ls-outline__node-label">@a 4px</div>
+								</div>
+								<div class="ls-outline__node" data-type="property" data-name="padding" data-range="262,277">
+									<div class="ls-outline__node-label">padding: @a + 1</div>
+								</div>
+							</div>
+						</div>
+						<div class="ls-outline__node" data-type="section" data-name="&amp;.bar3, &amp;.bar4" data-range="284,298">
+							<div class="ls-outline__node-label">&amp;.bar3, &amp;.bar4</div>
+							<div class="ls-outline__node-body">
+								<div class="ls-outline__node" data-type="property" data-name="a" data-range="303,307">
+									<div class="ls-outline__node-label">a: b</div>
+								</div>
+							</div>
+						</div>
+						<div class="ls-outline__node" data-type="section" data-name="@{b}" data-range="314,318">
+							<div class="ls-outline__node-label">@{b}</div>
+							<div class="ls-outline__node-body">
+								<div class="ls-outline__node" data-type="property" data-name="a" data-range="323,327">
+									<div class="ls-outline__node-label">a: b</div>
+								</div>
+							</div>
+						</div>
+						<div class="ls-outline__node" data-type="property" data-name=".mx" data-range="334,337">
+							<div class="ls-outline__node-label">.mx </div>
+						</div>
+						<div class="ls-outline__node" data-type="property" data-name=".mx2" data-range="340,344">
+							<div class="ls-outline__node-label">.mx2 </div>
+						</div>
+					</div>
+				</div>
+				<div class="ls-outline__node" data-type="section" data-name=".color" data-range="349,355">
+					<div class="ls-outline__node-label">.color</div>
+					<div class="ls-outline__node-body">
+						<div class="ls-outline__node" data-type="property" data-name="v1" data-range="359,367">
+							<div class="ls-outline__node-label">v1: #fff</div>
+						</div>
+						<div class="ls-outline__node" data-type="property" data-name="v2" data-range="370,378">
+							<div class="ls-outline__node-label">v2: #fc1</div>
+						</div>
+						<div class="ls-outline__node" data-type="property" data-name="v3" data-range="381,392">
+							<div class="ls-outline__node-label">v3: #cca000</div>
+						</div>
+					</div>
+				</div>
+				<div class="ls-outline__node" data-type="section" data-name=".props" data-range="397,403">
+					<div class="ls-outline__node-label">.props</div>
+					<div class="ls-outline__node-body">
+						<div class="ls-outline__node" data-type="property" data-name="padding" data-range="407,419">
+							<div class="ls-outline__node-label">padding: 1px</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="ls-outline__section" data-type="result">
+				<div class="ls-outline__node" data-type="section" data-name=".mx" data-range="94,97">
+					<div class="ls-outline__node-label">.mx</div>
+					<div class="ls-outline__node-body">
+						<div class="ls-outline__node" data-type="property" data-name="c" data-range="101,105">
+							<div class="ls-outline__node-label">c: d</div>
+						</div>
+					</div>
+				</div>
+				<div class="ls-outline__node" data-type="section" data-name=".foo" data-range="179,183">
+					<div class="ls-outline__node-label">.foo</div>
+					<div class="ls-outline__node-body">
+						<div class="ls-outline__node" data-type="property" data-name="padding" data-range="200,215">
+							<div class="ls-outline__node-label">padding: 2px</div>
+						</div>
+						<div class="ls-outline__node" data-type="property" data-name="c" data-range="101,105">
+							<div class="ls-outline__node-label">c: d</div>
+						</div>
+						<div class="ls-outline__node" data-type="property" data-name="g" data-range="124,129">
+							<div class="ls-outline__node-label">g: 2</div>
+						</div>
+						<div class="ls-outline__node" data-type="property" data-name="e" data-range="170,174">
+							<div class="ls-outline__node-label">e: f</div>
+						</div>
+					</div>
+				</div>
+				<div class="ls-outline__node" data-type="section" data-name=".foo .bar1" data-range="219,224">
+					<div class="ls-outline__node-label">.foo .bar1</div>
+					<div class="ls-outline__node-body">
+						<div class="ls-outline__node" data-type="property" data-name="a" data-range="229,233">
+							<div class="ls-outline__node-label">a: b</div>
+						</div>
+					</div>
+				</div>
+				<div class="ls-outline__node" data-type="section" data-name=".bar2.foo" data-range="240,246">
+					<div class="ls-outline__node-label">.bar2.foo</div>
+					<div class="ls-outline__node-body">
+						<div class="ls-outline__node" data-type="property" data-name="padding" data-range="262,277">
+							<div class="ls-outline__node-label">padding: 5px</div>
+						</div>
+					</div>
+				</div>
+				<div class="ls-outline__node" data-type="section" data-name=".foo.bar3, .foo.bar4" data-range="284,298">
+					<div class="ls-outline__node-label">.foo.bar3, .foo.bar4</div>
+					<div class="ls-outline__node-body">
+						<div class="ls-outline__node" data-type="property" data-name="a" data-range="303,307">
+							<div class="ls-outline__node-label">a: b</div>
+						</div>
+					</div>
+				</div>
+				<div class="ls-outline__node" data-type="section" data-name=".foo bar" data-range="314,318">
+					<div class="ls-outline__node-label">.foo bar</div>
+					<div class="ls-outline__node-body">
+						<div class="ls-outline__node" data-type="property" data-name="a" data-range="323,327">
+							<div class="ls-outline__node-label">a: b</div>
+						</div>
+					</div>
+				</div>
+				<div class="ls-outline__node" data-type="section" data-name=".foo .inner" data-range="132,138">
+					<div class="ls-outline__node-label">.foo .inner</div>
+					<div class="ls-outline__node-body">
+						<div class="ls-outline__node" data-type="property" data-name="h" data-range="143,152">
+							<div class="ls-outline__node-label">h: 3</div>
+						</div>
+					</div>
+				</div>
+				<div class="ls-outline__node" data-type="section" data-name=".color" data-range="349,355">
+					<div class="ls-outline__node-label">.color</div>
+					<div class="ls-outline__node-body">
+						<div class="ls-outline__node" data-type="property" data-name="v1" data-range="359,367">
+							<div class="ls-outline__node-label">v1: #ffffff</div>
+						</div>
+						<div class="ls-outline__node" data-type="property" data-name="v2" data-range="370,378">
+							<div class="ls-outline__node-label">v2: #ffcc11</div>
+						</div>
+						<div class="ls-outline__node" data-type="property" data-name="v3" data-range="381,392">
+							<div class="ls-outline__node-label">v3: #cca000</div>
+						</div>
+					</div>
+				</div>
+				<div class="ls-outline__node" data-type="section" data-name=".props" data-range="397,403">
+					<div class="ls-outline__node-label">.props</div>
+					<div class="ls-outline__node-body">
+						<div class="ls-outline__node" data-type="property" data-name="padding" data-range="407,419">
+							<div class="ls-outline__node-label">padding: 1px</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="ls-outline__tip">Use Tab key to toggle between source and result</div>
+	</div>
+</div>
+</body>
+</html>
