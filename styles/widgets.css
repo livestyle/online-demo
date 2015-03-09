@@ -238,6 +238,7 @@
 .ls-outline__switch-label {
 	display: inline-block;
 	padding: 5px 8px;
+	cursor: pointer;
 }
 
 .ls-outline__switch-label_active {
