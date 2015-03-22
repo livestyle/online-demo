@@ -12,8 +12,8 @@ function np(file) {
 	return path.resolve(path.join('node_modules', file));
 }
 
-gulp.task('js', function() {
-	return gulp.src('./js/*.js', srcOptions)
+gulp.task('js', ['worker'], function() {
+	return gulp.src('./js/{main,editor}.js', srcOptions)
 		.pipe(jsBundler({
 			uglify: production,
 			sourceMap: !production,
@@ -22,6 +22,15 @@ gulp.task('js', function() {
 				np('emmet-codemirror/dist/emmet.js'),
 				np('codemirror/lib/codemirror.js')
 			]
+		}))
+		.pipe(gulp.dest(outPath));
+});
+
+gulp.task('worker', function() {
+	return gulp.src('./js/worker.js', srcOptions)
+		.pipe(jsBundler({
+			uglify: false,
+			sourceMap: false
 		}))
 		.pipe(gulp.dest(outPath));
 });
