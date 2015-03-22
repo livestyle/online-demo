@@ -2,27 +2,22 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8" />
-	<title>Widget test</title>
+	<title>LiveStyle Analyzer demo</title>
 	<link rel="stylesheet" href="../node_modules/codemirror/lib/codemirror.css" />
 	<link rel="stylesheet" href="../node_modules/codemirror/addon/hint/show-hint.css" />
-	<link rel="stylesheet" href="../styles/widgets.css" />
-	<style>
-	html, body {
-		padding: 0;
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-	.CodeMirror {
-		height: 100%;
-		font-family: 'DejaVu Sans Mono', Menlo, monospace;
-		font-size: 0.8em;
-		line-height: 1.6;
-	}
-	</style>
+	<link rel="stylesheet" href="../styles/analyzer.css" />
 </head>
 <body>
-<!-- <textarea name="editor" id="editor" data-mode="text/x-scss">
+<header class="toolbar">
+	<h1><a href="http://livestyle.emmet.io"><img src="../img/logo.svg" class="logo" alt="Emmet" />LiveStyle</a></h1>
+	Syntax:
+	<select name="syntax">
+		<option value="text/x-scss">SCSS</option>
+		<option value="text/x-less">LESS</option>
+	</select>
+</header>
+<section class="editor">
+<script type="text/x-scss">
 $pad: 10px;
 $c1: #c30;
 $c2: darken(#c30, 0.01);
@@ -56,8 +51,8 @@ ul.nav {
 		}
 	}
 }
-</textarea> -->
-<textarea name="editor" id="editor" data-mode="text/x-less">
+</script>
+<script type="text/x-less">
 @a: 1px;
 @a2: 10px - 9;
 @b: bar;
@@ -116,19 +111,82 @@ ul.nav {
 .props {
 	padding: 1px;
 }
-</textarea>
+</script>
+
+<textarea name="editor" id="editor"></textarea>
+</section>
+
+<aside class="sidebar">
+	<div id="carbonads-container">
+		<div class="carbonad">
+			<div id="azcarbon"></div>
+		</div>
+	</div>
+	<h2>LiveStyle Analyzer</h2>	
+	<p>A demonstration of LiveStyle’s static analysis and experimental UI to improve your preprocessor stylesheet editing experience.</p>
+
+	<p class="suggestions">Suggestions? <a href="mailto:info@emmet.io">info@emmet.io</a></p>
+
+	<ul class="features">
+		<li><img src="../img/feature-sel.png" height="100" width="100" />Quickly spot required CSS selectors right in your editor: no matter how deep and complex your nested section, LiveStyle displays its resolved CSS counterpart.</li>
+		<li><img src="../img/feature-outline.png" height="100" width="100" />Press <kbd>Ctrl-O</kbd> to open <span class="pseudo-href" data-action="show-outline">quick outline</span>: a compact representation of your stylesheet structure and its resolved CSS. Quickly filter required selectors and pick them with arrow keys.</li>
+		<li><img src="../img/feature-suggest.png" height="100" width="100" />Click on <i>+</i> icon to display variables that resolves to the same value. For colors, variables with <em>visually similar</em> colors are suggested (marked with <code>≈</code> icon).</li>
+		<li><img src="../img/feature-computed.png" height="100" width="100" />Move caret on CSS expression to see its computed value.</li>
+		<li><img src="../img/feature-mixin.png" height="100" width="100" />Mixin output: move caret on <em>mixin invocation</em> to see all matched mixins and their output.</li>
+		<li><img src="../img/feature-complete.png" height="100" width="100" />Press <kbd>Ctrl+Space</kbd> for variables and mixin completions.</li>
+	</ul>
+</aside>
+
 	<script src="../node_modules/codemirror/lib/codemirror.js"></script>
 	<script src="../node_modules/codemirror/mode/css/css.js"></script>
 	<script src="../node_modules/codemirror/keymap/sublime.js"></script>
 	<script src="../node_modules/codemirror/addon/hint/show-hint.js"></script>
 	<script src="../out/analyzer-app.js"></script>
 	<script>
-	var elem = document.getElementById('editor');
-	var editor = CodeMirror.fromTextArea(elem, {
-		lineNumbers: true,
-		mode: elem.dataset.mode
-	});
-	analyzerApp(editor);
+	(function() {
+		function $(sel, context) {
+			return (context || document).querySelector(sel);
+		}
+
+		function $$(sel, context) {
+			var res = (context || document).querySelectorAll(sel);
+			return Array.prototype.slice.call(res, 0);
+		}
+
+		function pickSyntax() {
+			var syntax = syntaxPicker.value;
+			editor.setOption('mode', syntax);
+			editor.setValue(codeSamples[syntax]);
+		}
+
+		var codeSamples = {};
+		var syntaxPicker = $('select[name="syntax"]');
+
+		$$('script').forEach(function(elem) {
+			if (/^text\/x-/.test(elem.type)) {
+				codeSamples[elem.type] = elem.innerHTML.trim();
+			}
+		});
+
+		var editor = CodeMirror.fromTextArea($('#editor'), {lineNumbers: true});
+		syntaxPicker.addEventListener('change', pickSyntax);
+		pickSyntax();
+		
+		var app = analyzerApp(editor);
+
+		$$('[data-action="show-outline"]').forEach(function(item) {
+			item.addEventListener('click', app.showOutline);
+		});
+	})();
+
+	// carbonads
+	(function() {
+		var z = document.createElement("script"); 
+		z.async = true;
+		z.src = "http://engine.carbonads.com/z/50357/azcarbon_2_1_0_VERTDARK";
+		var s = document.getElementsByTagName("script")[0];
+		s.parentNode.insertBefore(z, s);
+	})();
 	</script>
 </body>
 </html>

@@ -60,7 +60,7 @@
 .ls-mixin-call__name {
 	margin-top: 15px;
 	font-weight: bold;
-	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+	padding-bottom: 2px;
 }
 
 .ls-mixin-call__name:first-child {
@@ -173,6 +173,28 @@
 
 .ls-widget__computed-value .ls-widget__color {
 	top: 2px;
+}
+
+.ls-widget__mixin-call {
+	background: #2ECC71;
+	color: #fff;
+}
+
+.ls-mixin-call {
+	margin-top: 7px;
+	border-top: 1px solid rgba(255, 255, 255, 0.4);
+	padding-top: 7px;
+}
+
+.ls-mixin-call:first-child {
+	margin-top: 0;
+	padding: 0;
+	border: 0;
+}
+
+.ls-mixin-call__body {
+	font-size: 0.9em;
+	color: #b9ecc7;
 }
 
 /* Outline */
@@ -308,4 +330,10 @@
 	color: #5e646b;
 	border-bottom-left-radius: 2px;
 	border-bottom-right-radius: 2px;
+}
+
+.CodeMirror-hint {
+	font-family: 'DejaVu Sans Mono', Consolas, Menlo, monospace;
+	padding: 4px;
+	font-size: 11px;
 }

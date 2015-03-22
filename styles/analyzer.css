@@ -1,0 +1,176 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:400,700);
+@import url(./widgets.css);
+
+html, body {
+	padding: 0;
+	margin: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	font-family: 'Lato', sans-serif;
+}
+
+h2 {
+	font-size: 29px;
+	margin: 0 0 15px;
+}
+
+kbd {
+	font-family: 'DejaVu Sans Mono', Menlo, monospace;
+	border: 1px solid #7f8c8d;
+	font-size: 0.9em;
+	padding: 1px 3px;
+	border-radius: 4px;
+}
+
+a, .pseudo-href {
+	color: #16a085;
+}
+
+a:hover, .pseudo-href:hover {
+	color: #1abc9c;
+}
+
+.pseudo-href {
+	cursor: pointer;
+	border-bottom: 1px dotted currentColor;
+}
+
+.CodeMirror {
+	height: 100%;
+	font-family: 'DejaVu Sans Mono', Menlo, monospace;
+	font-size: 0.8em;
+	line-height: 1.6;
+}
+
+.toolbar {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 500px;
+	height: 39px;
+	line-height: 39px;
+	background: #ecf0f1;
+	border-bottom: 1px solid #bdc3c7;
+	/* color: #fff; */
+	font-size: 13px;
+	padding: 0 20px;
+	text-align: right;
+}
+
+.toolbar h1 {
+	position: absolute;
+	font-size: 20px;
+	left: 10px;
+	line-height: 39px;
+	top: 0;
+	margin: 0;
+	padding: 0;
+	font-weight: normal;
+}
+
+.toolbar h1 a {
+	color: #2c3e50;
+	text-decoration: none;
+}
+
+.toolbar h1 a:hover {
+	color: #2980B9;
+}
+
+.logo {
+	width: 31px;
+	height: auto;
+	vertical-align: middle;
+	margin-right: 10px;
+	position: relative;
+	top: -2px;
+}
+
+.editor {
+	position: absolute;
+	top: 40px;
+	bottom: 0;
+	left: 0;
+	right: 500px;
+	overflow: auto;
+}
+
+.sidebar {
+	position: absolute;
+	width: 460px;
+	height: 100%;
+	border-left: 1px solid #bdc3c7;
+	top: 0;
+	right: 0;
+	background: #ecf0f1;
+	padding: 20px;
+	color: #30485f;
+	line-height: 1.4;
+	overflow: auto;
+}
+
+.suggestions {
+	font-size: 0.8em;
+}
+
+.features {
+	display: block;
+	padding: 0;
+	margin: 40px 0 0;
+	list-style-type: none;
+	font-size: 12px;
+	text-align: justify;
+	color: #7f8c8d;
+	clear: right;
+}
+
+.features:after {
+	display: inline-block;
+	width: 100%;
+	content: '';
+}
+
+.features > li {
+	width: 130px;
+	display: inline-block;
+	vertical-align: top;
+	margin-bottom: 30px;
+	text-align: left;
+}
+
+.features img {
+	display: block;
+	margin: 0 auto 10px;
+}
+
+.features i {
+	display: inline-block;
+	font-style: normal;
+	color: #fff;
+	background: #ffa21e;
+	width: 1.4em;
+	height: 1.35em;
+	text-align: center;
+	border-radius: 50%;
+}
+
+#carbonads-container {
+	float: right;
+	margin-top: -11px;
+	position: relative;
+	left: 6px;
+	padding-bottom: 10px;
+	min-width: 150px;
+	min-height: 215px;
+	border-left: 1px solid #bdc3c7;
+}
+
+#carbonads-container .carbonad {
+	background: none;
+	border: none;
+}
+
+#carbonads-container .carbonad-text a {
+	color: #7c8d8e;
+}
