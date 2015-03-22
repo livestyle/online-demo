@@ -1,18 +1,18 @@
 import patcher from 'livestyle-patcher';
 
-import client from '../lib/client';
-import crc32 from '../lib/crc32';
-import analyzer from '../lib/analyzer';
+import client from './lib/client';
+import crc32 from './lib/crc32';
+import analyzer from './lib/analyzer';
 
-import scssCompletions from '../lib/completions/scss';
-import lessCompletions from '../lib/completions/less';
+import scssCompletions from './lib/completions/scss';
+import lessCompletions from './lib/completions/less';
 
-import WidgetOverlay from '../lib/widget-overlay';
-import SelectorWidget from '../lib/widgets/selector';
-import MixinCallWidget from '../lib/widgets/mixin-call';
-import VariableSuggestWidget from '../lib/widgets/variable-suggest';
-import OutlineWidget from '../lib/widgets/outline';
-import ComputedValueWidget from '../lib/widgets/computed-value';
+import WidgetOverlay from './lib/widget-overlay';
+import SelectorWidget from './lib/widgets/selector';
+import MixinCallWidget from './lib/widgets/mixin-call';
+import VariableSuggestWidget from './lib/widgets/variable-suggest';
+import OutlineWidget from './lib/widgets/outline';
+import ComputedValueWidget from './lib/widgets/computed-value';
 
 var completions = {
 	scss: scssCompletions,
@@ -28,7 +28,7 @@ var knownModes = {
 // parsing and evaluation. Returns command queue:
 // a special object that batches all incoming
 // commands to LiveStyle and publishes its responses
-var cq = patcher(client, {worker: '../out/worker.js'});
+var cq = patcher(client, {worker: './js/worker.js'});
 
 export default function(editor) {
 	var overlay = new WidgetOverlay(editor);

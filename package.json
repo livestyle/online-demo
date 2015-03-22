@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "codemirror": "^4.8.0",
+    "emmet-codemirror": "^1.2.4",
     "livestyle-analyzer": "git+https://github.com/livestyle/analyzer.git",
     "livestyle-cssom-patcher": "git+https://github.com/livestyle/cssom-patcher.git",
     "livestyle-patcher": "git+https://github.com/livestyle/patcher.git"
@@ -18,6 +19,8 @@
     "6to5ify": "^4.0.0",
     "browserify": "^6.3.3",
     "gulp": "^3.8.10",
+    "gulp-gzip": "^1.0.0",
+    "gulp-minify-css": "^1.0.0",
     "js-bundler": "git+https://github.com/sergeche/js-bundler.git",
     "node-notifier": "^4.1.0",
     "through2": "^0.6.3",

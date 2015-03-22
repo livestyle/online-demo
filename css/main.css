@@ -1,5 +1,7 @@
 @import url(http://fonts.googleapis.com/css?family=Lato:400,700);
-@import url(./widgets.css);
+@import url(../node_modules/codemirror/lib/codemirror.css);
+@import url(../node_modules/codemirror/addon/hint/show-hint.css);
+@import url(./assets/widgets.css);
 
 html, body {
 	padding: 0;
