@@ -32,6 +32,7 @@ function js(options) {
 gulp.task('js', ['worker'], function() {
 	return gulp.src('./js/{main,editor}.js', srcOptions)
 		.pipe(js({
+			detectGlobals: false,
 			uglify: production,
 			sourceMap: !production,
 			noParse: [
@@ -46,8 +47,9 @@ gulp.task('js', ['worker'], function() {
 gulp.task('worker', function() {
 	return gulp.src('./js/worker.js', srcOptions)
 		.pipe(js({
-			uglify: false,
-			sourceMap: false
+			uglify: production,
+			sourceMap: !production,
+			detectGlobals: false
 		}))
 		.pipe(gulp.dest(outPath));
 });
