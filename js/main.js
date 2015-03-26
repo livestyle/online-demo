@@ -35,3 +35,4 @@ pickSyntax();
 var app = analyzerApp(editor);
 EmmetCodemirror(editor);
 $$('[data-action="show-outline"]').forEach(item => item.addEventListener('click', app.showOutline));
+editor.focus();

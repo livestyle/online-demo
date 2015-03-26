@@ -69,6 +69,11 @@ class Node {
 		this.fullRange = ref.range;
 		if (!this.fullRange) {
 			this.fullRange = ref.nameRange ? [ref.nameRange[0], (ref.valueRange || ref.nameRange)[1]] : [-1, -1];
+		} else {
+			// workaround for bug when full property range includes
+			// preceding formatting
+			this.fullRange = this.fullRange.slice(0);
+			this.fullRange[0] = this.nameRange[0];
 		}
 		this.parent = null;
 		this.children = [];
