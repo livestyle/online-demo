@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+- '0.10'
+env:
+  global:
+  - secure: kUj4zBWyaL2NSBP3IYHZ/I1joXlwwudmAkdwfoGZ/fOcniAs8y++67fZ42PmVt6qVepuXVrUNuAyQHSwR+F/jE8WyBiSXB59eKwFcgfdDQ7PeyA1IVTPR/EXZSP0TFheKzg68hQ8ib9TOtUm92LRjo+Armyp9GpcJNYaYrMcZcs=
+  - secure: aktV5ZMl4AgdNcBDXfHTIvLGUx1hSiYZZiYdeM5qYF6O9N4X8ad8ZRVRoVoUm4j2lcGNdPIL5SnFaHAsj1oQHDNtf68epB7DnwR4U+8p4F3hIpYd6HFJ9C9+nwbn+NfYv6YNbYJTDgoJ+MKGu/w2Ww97fp2hu5KoyT8hkOwCNxU=
+  - secure: SnePyMHZAgrAiABlk7e3STLO7F4GV2AdvH4c4DA8yDvVy+2c1teAUKJk4ErqrJVu7VtJkwK1hPUNZQNZ3/RpbTLtvir8niSryNYMe1nfXM0jllaTSnSydrU1tjn8yznAt8SYQH2oHLs8EXj2bLMX+PjOWko6shtpCmqM7yjw1mk=
+addons:
+  ssh_known_hosts:
+  - 128.199.54.7
+script: ./node_modules/.bin/gulp --production
+branches:
+  only:
+  - master
+after_success:
+- sudo apt-get -y -qq install sshpass
+- rsync -arlptzO --stats --rsh="sshpass -p $DEPLOY_PASSWORD ssh -l $DEPLOY_USER" ./out/ 128.199.54.7:$DEPLOY_DEST
