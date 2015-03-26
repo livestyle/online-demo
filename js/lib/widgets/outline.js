@@ -36,6 +36,8 @@ export default class OutlineWidget extends Widget {
 			}
 		});
 		delegate(elem, 'click', '.ls-outline__node-label', function(evt) {
+			evt.preventDefault();
+			evt.stopPropagation();
 			self.highlightNode(closest(this, '.ls-outline__node'), self.editor);
 			self.dispose();
 		});
@@ -50,7 +52,7 @@ export default class OutlineWidget extends Widget {
 		});
 
 		fld.addEventListener('blur', evt => {
-			closeTimeout = setTimeout(this.dispose.bind(this), 50);
+			closeTimeout = setTimeout(this.dispose.bind(this), 150);
 		});
 	}
 
