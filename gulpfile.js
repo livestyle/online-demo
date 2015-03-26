@@ -4,6 +4,7 @@ var jsBundler = require('js-bundler');
 var minifyCSS = require('gulp-minify-css');
 var gzip = require('gulp-gzip');
 var connect = require('gulp-connect');
+var notifier = require('node-notifier');
 var htmlTransform = require('html-transform');
 var rewriteUrl = htmlTransform.rewriteUrl;
 var stringifyDom = htmlTransform.stringifyDom;
@@ -16,9 +17,21 @@ function np(file) {
 	return path.resolve(path.join('node_modules', file));
 }
 
+function js(options) {
+	return jsBundler(options).on('error', function(err) {
+		notifier.notify({
+			title: 'Error', 
+			message: err,
+			sound: true
+		});
+		console.error(err.stack);
+		this.emit('end');
+	});
+}
+
 gulp.task('js', ['worker'], function() {
 	return gulp.src('./js/{main,editor}.js', srcOptions)
-		.pipe(jsBundler({
+		.pipe(js({
 			uglify: production,
 			sourceMap: !production,
 			noParse: [
@@ -32,7 +45,7 @@ gulp.task('js', ['worker'], function() {
 
 gulp.task('worker', function() {
 	return gulp.src('./js/worker.js', srcOptions)
-		.pipe(jsBundler({
+		.pipe(js({
 			uglify: false,
 			sourceMap: false
 		}))

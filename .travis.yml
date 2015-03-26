@@ -9,7 +9,7 @@ env:
 addons:
   ssh_known_hosts:
   - 128.199.54.7
-script: ./node_modules/.bin/gulp --production
+script: ./node_modules/.bin/gulp full --production
 branches:
   only:
   - master
