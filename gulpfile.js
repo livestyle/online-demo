@@ -3,6 +3,10 @@ var gulp = require('gulp');
 var jsBundler = require('js-bundler');
 var minifyCSS = require('gulp-minify-css');
 var gzip = require('gulp-gzip');
+var connect = require('gulp-connect');
+var htmlTransform = require('html-transform');
+var rewriteUrl = htmlTransform.rewriteUrl;
+var stringifyDom = htmlTransform.stringifyDom;
 
 var srcOptions = {base: './'};
 var outPath = './out';
@@ -43,6 +47,13 @@ gulp.task('css', function() {
 
 gulp.task('html', function() {
 	return gulp.src('./index.html', srcOptions)
+		.pipe(rewriteUrl(function(url, file, ctx) {
+			if (ctx.stats) {
+				url = '/-/' + ctx.stats.hash + '/analyzer' + url;
+			}
+			return url;
+		}))
+		.pipe(stringifyDom('xhtml'))
 		.pipe(gulp.dest(outPath))
 });
 
@@ -65,6 +76,18 @@ gulp.task('watch', function() {
 	gulp.watch(['./js/**/*.js'], ['js']);
 	gulp.watch(['./css/**/*.css'], ['css']);
 	gulp.watch(['./*.html'], ['html']);
+});
+
+gulp.task('server', function() {
+	connect.server({
+		root: './out',
+		middleware: function() {
+			return [function(req, res, next) {
+				req.url = req.url.replace(/^\/\-\/\w+\/analyzer\//, '/');
+				next();
+			}];
+		}
+	});
 });
 
 gulp.task('all', ['js', 'css', 'assets', 'html']);
