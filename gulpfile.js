@@ -47,7 +47,7 @@ gulp.task('js', ['worker'], function() {
 gulp.task('worker', function() {
 	return gulp.src('./js/worker.js', srcOptions)
 		.pipe(js({
-			uglify: production,
+			uglify: false, // Do not minify, it breaks code!
 			sourceMap: !production,
 			detectGlobals: false
 		}))
