@@ -30,11 +30,12 @@ function js(options) {
 }
 
 gulp.task('js', ['worker'], function() {
-	return gulp.src('./js/{main,editor}.js', srcOptions)
+	return gulp.src('./js/{main,editor,analyzer}.js', srcOptions)
 		.pipe(js({
 			detectGlobals: false,
 			uglify: production,
 			sourceMap: !production,
+			standalone: true,
 			noParse: [
 				np('codemirror-movie/dist/movie.js'), 
 				np('emmet-codemirror/dist/emmet.js'),
