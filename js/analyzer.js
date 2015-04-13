@@ -24,13 +24,18 @@ var knownModes = {
 	'text/x-less': 'less'
 };
 
-// Init LiveStyle engine that will perform source 
-// parsing and evaluation. Returns command queue:
-// a special object that batches all incoming
-// commands to LiveStyle and publishes its responses
-var cq = patcher(client, {worker: './js/worker.js'});
 
-export default function(editor) {
+export default function(editor, options={}) {
+	if (!options.worker) {
+		throw new Error('Path to LiveStyle worker is not specified.');
+	}
+
+	// Init LiveStyle engine that will perform source 
+	// parsing and evaluation. Returns command queue:
+	// a special object that batches all incoming
+	// commands to LiveStyle and publishes its responses
+	var cq = patcher(client, {worker: options.worker});
+
 	var overlay = new WidgetOverlay(editor);
 	var analysis = null;
 	var keymap = {

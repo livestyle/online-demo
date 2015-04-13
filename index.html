@@ -30,6 +30,14 @@ $a2: 10px - 9;
 	}
 }
 
+.baz {
+	padding: 10px;
+
+	@media (min-width: 400px) {
+		padding: 5px;
+	}
+}
+
 ul.nav {
 	list-style: none;
 	padding: 0;
@@ -68,6 +76,14 @@ ul.nav {
 	g: @a;
 	.inner {
 		h: @a + 1;
+	}
+}
+
+.baz {
+	padding: 10px;
+
+	@media (min-width: 400px) {
+		padding: 5px;
 	}
 }
 
