@@ -24,17 +24,16 @@ function pickSyntax() {
 	editor.setValue(codeSamples[syntax]);
 }
 
+// setup app UI
+var codeSamples = {};
 $$('script').forEach(function(elem) {
 	if (/^text\/x-/.test(elem.type)) {
 		codeSamples[elem.type] = elem.innerHTML.trim();
 	}
 });
 
-// setup app UI
-var codeSamples = {};
 var syntaxPicker = $('select[name="syntax"]');
 syntaxPicker.addEventListener('change', pickSyntax);
-pickSyntax();
 
 // setup CodeMirror instance
 var editor = CodeMirror.fromTextArea($('#editor'), {
@@ -43,6 +42,7 @@ var editor = CodeMirror.fromTextArea($('#editor'), {
 	indentUnit: 4
 });
 EmmetCodemirror(editor);
+pickSyntax();
 
 // init LiveStyle analyzer
 var app = analyzerApp(editor, {worker: './js/worker.js'});
