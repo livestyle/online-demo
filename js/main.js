@@ -28,7 +28,9 @@ function pickSyntax() {
 var codeSamples = {};
 $$('script').forEach(function(elem) {
 	if (/^text\/x-/.test(elem.type)) {
-		codeSamples[elem.type] = elem.innerHTML.trim();
+		// bummer, my HTML importer forcibly replaces & with &amp;
+		// Revert it back
+		codeSamples[elem.type] = elem.innerHTML.trim().replace(/&amp;/g, '&');
 	}
 });
 
