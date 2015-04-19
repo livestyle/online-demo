@@ -30,6 +30,10 @@ $a2: 10px - 9;
 	}
 }
 
+@function plus($var1, $var2) {
+	@return $var1 + $var2;
+}
+
 .baz {
 	padding: 10px;
 
@@ -40,7 +44,7 @@ $a2: 10px - 9;
 
 ul.nav {
 	list-style: none;
-	padding: 0;
+	padding: plus(1, 5);
 	margin: 0;
 	li {
 		padding: $pad;
