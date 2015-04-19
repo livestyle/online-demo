@@ -24,7 +24,7 @@
 	position: absolute;
 	top: 6px;
 	left: -4px;
-	background: inherit;
+	background-color: inherit;
 	visibility: hidden;
 }
 
@@ -35,7 +35,7 @@
 	height: 8px;
 	position: absolute;
 	top: 50%;
-	background: inherit;
+	background-color: inherit;
 	visibility: visible;
 	box-shadow: inset 0 2px 2px rgba(0,0,0,0.13);
 	
